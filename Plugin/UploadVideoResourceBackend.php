@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Albert\Magento\ProductVideo\Model\Plugin;
+namespace Albert\Magento\ProductVideo\Plugin;
 
 use Magento\Catalog\Model\ResourceModel\Product\Gallery;
 

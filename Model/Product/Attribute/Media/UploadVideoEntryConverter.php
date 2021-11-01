@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Learning\HelloPage\Model\Product\Attribute\Media;
+namespace Albert\Magento\ProductVideo\Model\Product\Attribute\Media;
 
 use Magento\ProductVideo\Model\Product\Attribute\Media\ExternalVideoEntryConverter;
 
