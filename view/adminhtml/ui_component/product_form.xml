@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <htmlContent name="gallery" sortOrder="22">
+        <block name="gallery" class="Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery">
+            <block class="Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content" as="content">
+                <block class="Albert\Magento\ProductVideo\Block\Adminhtml\Product\Edit\NewUploadVideo" name="new-video" template="Magento_ProductVideo::product/edit/slideout/form.phtml"/>
+            </block>
+        </block>
+    </htmlContent>
+</form>
