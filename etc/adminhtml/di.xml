@@ -3,13 +3,13 @@
     <type name="Magento\Catalog\Model\Product\Attribute\Backend\Media\EntryConverterPool">
         <arguments>
             <argument name="mediaGalleryEntryConvertersCollection" xsi:type="array">
-                <item name="upload-video" xsi:type="object">Albert\Magento\ProductVideo\Model\Product\Attribute\Media\UploadVideoEntryConverter</item>
+                <item name="upload-video" xsi:type="object">AlbertMage\ProductVideo\Model\Product\Attribute\Media\UploadVideoEntryConverter</item>
             </argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\ResourceModel\Product\Gallery">
-        <plugin name="upload_video_media_resource_backend" type="Albert\Magento\ProductVideo\Plugin\UploadVideoResourceBackend" />
+        <plugin name="upload_video_media_resource_backend" type="AlbertMage\ProductVideo\Plugin\UploadVideoResourceBackend" />
     </type>
-    <preference for="Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\CreateHandler" type="Albert\Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\CreateHandler"/>
-    <preference for="Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler" type="Albert\Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler"/>
+    <preference for="Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\CreateHandler" type="AlbertMage\ProductVideo\Model\Plugin\Catalog\Product\Gallery\CreateHandler"/>
+    <preference for="Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler" type="AlbertMage\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler"/>
 </config>

@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Albert\Magento\ProductVideo\Block\Adminhtml\Product\Edit;
+namespace AlbertMage\ProductVideo\Block\Adminhtml\Product\Edit;
 
 /**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)

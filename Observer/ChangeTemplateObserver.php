@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Albert\Magento\ProductVideo\Observer;
+namespace AlbertMage\ProductVideo\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 
@@ -17,6 +17,6 @@ class ChangeTemplateObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $observer->getBlock()->setTemplate('Albert_ProductVideo::helper/gallery.phtml');
+        $observer->getBlock()->setTemplate('AlbertMage_ProductVideo::helper/gallery.phtml');
     }
 }

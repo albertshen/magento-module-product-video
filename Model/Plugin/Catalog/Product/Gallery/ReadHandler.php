@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Albert\Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery;
+namespace AlbertMage\ProductVideo\Model\Plugin\Catalog\Product\Gallery;
 
 use Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler as ExternalVideoReadHandler;
 

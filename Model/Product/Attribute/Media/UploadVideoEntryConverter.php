@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Albert\Magento\ProductVideo\Model\Product\Attribute\Media;
+namespace AlbertMage\ProductVideo\Model\Product\Attribute\Media;
 
 use Magento\ProductVideo\Model\Product\Attribute\Media\ExternalVideoEntryConverter;
 

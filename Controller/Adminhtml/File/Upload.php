@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Albert\Magento\ProductVideo\Controller\Adminhtml\File;
+namespace AlbertMage\ProductVideo\Controller\Adminhtml\File;
 
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;

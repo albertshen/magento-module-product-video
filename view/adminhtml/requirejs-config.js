@@ -6,8 +6,8 @@
 var config = {
     map: {
         '*': {
-            newVideoDialog:  'Albert_ProductVideo/js/new-video-dialog',
-            openVideoModal:  'Albert_ProductVideo/js/video-modal'
+            newVideoDialog:  'AlbertMage_ProductVideo/js/new-video-dialog',
+            openVideoModal:  'AlbertMage_ProductVideo/js/video-modal'
         }
     }
 };
