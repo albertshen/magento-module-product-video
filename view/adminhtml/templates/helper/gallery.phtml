@@ -15,7 +15,14 @@ $formNameEscaped = $block->escapeHtmlAttr($block->getFormName());
 /** @var \Magento\Framework\Json\Helper\Data $jsonHelper */
 $jsonHelper = $block->getData('jsonHelper');
 ?>
-
+<style>
+    .video-player-container.upload {
+        height: auto;
+    }
+    .video-player-container.upload video {
+        display: block;
+    }
+</style>
 <div class="row">
     <div class="add-video-button-container">
         <button id="add_video_button"

@@ -17,7 +17,7 @@ use Magento\Framework\Filesystem;
  */
 class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterface
 {
-    const UPLOAD_DIR = 'video/product';
+    const UPLOAD_DIR = 'tmp/catelog/product/video';
 
     const ADMIN_RESOURCE = 'Magento_Backend::content';
 
@@ -118,7 +118,7 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
             $baseUrl = $this->_backendUrl->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA]);
             $result['id'] = $this->cmsWysiwygImages->idEncode($result['file']);
             $result['url'] = $baseUrl . $this->getFilePath(self::UPLOAD_DIR, $result['file']);
-            $result['path'] = self::UPLOAD_DIR . '/tmp/' . $result['file'];
+            $result['path'] = self::UPLOAD_DIR . '/' . $result['file'];
         } catch (\Exception $e) {
             $result = [
                 'error' => $e->getMessage(),

@@ -7,9 +7,6 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\ResourceModel\Product\Gallery">
-        <plugin name="upload_video_media_resource_backend" type="AlbertMage\ProductVideo\Plugin\UploadVideoResourceBackend" />
-    </type>
     <preference for="Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\CreateHandler" type="AlbertMage\ProductVideo\Model\Plugin\Catalog\Product\Gallery\CreateHandler"/>
     <preference for="Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler" type="AlbertMage\ProductVideo\Model\Plugin\Catalog\Product\Gallery\ReadHandler"/>
 </config>

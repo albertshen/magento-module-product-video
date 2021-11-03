@@ -7,6 +7,9 @@
 namespace AlbertMage\ProductVideo\Model\Plugin\Catalog\Product\Gallery;
 
 use Magento\ProductVideo\Model\Plugin\Catalog\Product\Gallery\AbstractHandler;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Filesystem;
 
 /**
  * Plugin for catalog product gallery create/update handlers.
@@ -19,6 +22,26 @@ class CreateHandler extends AbstractHandler
      */
     const ADDITIONAL_STORE_DATA_KEY = 'additional_store_data';
 
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Product\Gallery
+     */
+    protected $resourceModel;
+
+    /**
+     * @var Filesystem\Directory\WriteInterface
+     */
+    private $mediaDirectory;
+
+    /**
+     * @param \Magento\Catalog\Model\ResourceModel\Product\Gallery $resourceModel
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ResourceModel\Product\Gallery $resourceModel
+    ) {
+        $this->resourceModel = $resourceModel;
+        $filesystem = ObjectManager::getInstance()->create(Filesystem::class);
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+    }
     /**
      * Execute before Plugin
      *
@@ -70,11 +93,43 @@ class CreateHandler extends AbstractHandler
             $this->saveVideoData($newVideoCollection, 0);
 
             $videoDataCollection = $this->collectVideoData($mediaCollection);
+
+            $videoDataCollection = $this->processVideoFile($videoDataCollection);
+
             $this->saveVideoData($videoDataCollection, $product->getStoreId());
             $this->saveAdditionalStoreData($videoDataCollection);
+
+            $this->processDeletedVideo($mediaCollection);
+            
         }
 
         return $product;
+    }
+
+    protected function processVideoFile(array $videoDataCollection)
+    {
+        $newVideoDataCollection = [];
+        foreach ($videoDataCollection as $item) {
+            if ($item['video_provider'] === 'uploader' && $this->isTmpVideo($item['video_url'])) {
+                $result = $this->mediaDirectory->copyFile(
+                    $this->mediaDirectory->getAbsolutePath($item['video_url']),
+                    $this->mediaDirectory->getAbsolutePath($this->tagetVideoPath($item['video_url']))
+                );
+                $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
+                $item['video_url'] = $this->tagetVideoPath($item['video_url']);
+            }
+            $newVideoDataCollection[] = $item;
+        }
+        return $newVideoDataCollection;
+    }
+
+    protected function processDeletedVideo(array $mediaCollection)
+    {
+        foreach ($mediaCollection as $item) {
+            if ($item['media_type'] === 'upload-video' && isset($item['removed']) && $item['removed']) {
+                $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
+            }
+        }
     }
 
     /**
@@ -336,5 +391,18 @@ class CreateHandler extends AbstractHandler
             }
         }
         return $mediaCollection;
+    }
+
+    private function isTmpVideo($path)
+    {
+        if (strpos($path, 'tmp/') === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private function tagetVideoPath($path)
+    {
+        return substr($path, 4);
     }
 }

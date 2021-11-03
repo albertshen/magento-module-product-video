@@ -6,6 +6,9 @@
 namespace AlbertMage\ProductVideo\Plugin;
 
 use Magento\Catalog\Model\ResourceModel\Product\Gallery;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Filesystem;
 
 /**
  * Media Resource decorator
@@ -13,16 +16,17 @@ use Magento\Catalog\Model\ResourceModel\Product\Gallery;
 class UploadVideoResourceBackend
 {
     /**
-     * @var \Magento\ProductVideo\Model\ResourceModel\Video
+     * @var Filesystem\Directory\WriteInterface
      */
-    protected $videoResourceModel;
+    private $mediaDirectory;
 
     /**
      * @param \Magento\ProductVideo\Model\ResourceModel\Video $videoResourceModel
      */
-    public function __construct(\Magento\ProductVideo\Model\ResourceModel\Video $videoResourceModel)
+    public function __construct()
     {
-        $this->videoResourceModel = $videoResourceModel;
+        $filesystem = ObjectManager::getInstance()->create(Filesystem::class);
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
     }
 
     /**
@@ -37,11 +41,39 @@ class UploadVideoResourceBackend
     public function beforeSaveDataRow(
         Gallery $originalResourceModel,
         $table,
-        array $data
+        &$data
     )
     {
-        if ($data['provider'] === 'uploader') {
-            var_dump($data);exit;
+
+        if (isset($data['provider']) && $data['provider'] === 'uploader') {
+            if ($this->isNewVideo($data['url'])) {
+                try {
+                    $result = $this->mediaDirectory->copyFile(
+                        $this->mediaDirectory->getAbsolutePath($data['url']),
+                        $this->mediaDirectory->getAbsolutePath($this->tagetVideoPath($data['url']))
+                    );
+                    $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($data['url']));
+                    $data['url'] = $this->tagetVideoPath($data['url']);
+                } catch (\Exception $e) {
+                    $result = [
+                        'error' => $e->getMessage(),
+                        'errorcode' => $e->getCode()
+                    ];
+                }
+            }
         }
+    }
+
+    private function isNewVideo($path)
+    {
+        if (strpos($path, 'tmp/') === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private function tagetVideoPath($path)
+    {
+        return substr($path, 4);
     }
 }
