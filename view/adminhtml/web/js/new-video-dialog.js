@@ -5,8 +5,9 @@
 define([
     'jquery',
     'Magento_ProductVideo/js/new-video-dialog',
-    'Magento_PageBuilder/js/config'
-], function ($, newVideoDialog, _config) {
+    'Magento_PageBuilder/js/config',
+    'Magento_Ui/js/modal/alert'
+], function ($, newVideoDialog, _config, alert) {
     'use strict';
 
     $.widget('mage.newVideoDialog', newVideoDialog, {
@@ -38,6 +39,8 @@ define([
             //this._super();
 
             this._initVideoUploader();
+
+            this._videoUploader.attr('accept', '.mp4,.mp3');
 
             this._videoUploader.on('fileuploaddone', $.proxy(this._onFileUploadDone, this));
 
@@ -331,7 +334,8 @@ define([
                 url : url,
                 type : 'POST',
                 autoUpload : true,
-                acceptFileTypes : /(mp4|mov)$/i,
+                acceptFileTypes : /(\.|\/)(mp4|mp3)$/i,
+                maxFileSize: 10000000, // 10 MB
                 maxNumberOfFiles : 1,
                 messages : {
                     acceptFileTypes : '文件类型不匹配',
@@ -345,7 +349,11 @@ define([
          * @private
          */
         _onFileUploadDone: function (e, data) {
-
+            if (data.result.errorcode === 0) {
+                alert({
+                    content: 'Error: "' + $.mage.__(data.result.error) + '"'
+                });
+            }
             this.element.find(this._videoPathSelector).val(data.result.path);
 
             var filename = data.result.name.substring(0, data.result.name.lastIndexOf("."));

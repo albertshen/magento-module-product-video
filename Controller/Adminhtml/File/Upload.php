@@ -110,9 +110,9 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
         $fileUploader->setAllowCreateFolders(true);
 
         try {
-            // if (!$fileUploader->checkMimeType(['image/png', 'image/jpeg', 'image/gif'])) {
-            //     throw new \Magento\Framework\Exception\LocalizedException(__('File validation failed.'));
-            // }
+            if (!$fileUploader->checkMimeType(['video/mp4', 'video/mp3'])) {
+                throw new \Magento\Framework\Exception\LocalizedException(__('File validation failed.'));
+            }
 
             $result = $fileUploader->save($this->getUploadDir());
             $baseUrl = $this->_backendUrl->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA]);
