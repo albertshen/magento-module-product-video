@@ -22,10 +22,10 @@ define([
          */
         _onOpenDialog: function (e, imageData) {
 
-            if (imageData['media_type'] === 'image') {
-                this._superApply(arguments);
-            } else {
+            if (imageData['media_type'] === 'upload-video' || imageData['media_type'] === 'upload-video') {
                 this.showModal();
+            } else {
+                this._superApply(arguments);
             }
         }
 
