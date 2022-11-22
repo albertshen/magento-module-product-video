@@ -1,12 +1,11 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright © PHPDigital, Inc. All rights reserved.
  */
 namespace AlbertMage\ProductVideo\Block\Adminhtml\Product\Edit;
 
 /**
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ * @author Albert Shen <albertshen1206@gmail.com>
  */
 class NewUploadVideo extends \Magento\ProductVideo\Block\Adminhtml\Product\Edit\NewVideo
 {

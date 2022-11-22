@@ -1,8 +1,6 @@
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright © PHPDigital, Inc. All rights reserved.
  */
-
 var config = {
     map: {
         '*': {
