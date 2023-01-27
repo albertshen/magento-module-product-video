@@ -40,6 +40,7 @@ class CreateHandler extends AbstractHandler
         $filesystem = ObjectManager::getInstance()->create(Filesystem::class);
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
     }
+
     /**
      * Execute before Plugin
      *
@@ -92,42 +93,16 @@ class CreateHandler extends AbstractHandler
 
             $videoDataCollection = $this->collectVideoData($mediaCollection);
 
-            $videoDataCollection = $this->processVideoFile($videoDataCollection);
+            $videoDataCollection = $this->processVideoFile($videoDataCollection); //new method
 
             $this->saveVideoData($videoDataCollection, $product->getStoreId());
             $this->saveAdditionalStoreData($videoDataCollection);
 
-            $this->processDeletedVideo($mediaCollection);
+            $this->processDeletedVideo($mediaCollection); //new method
             
         }
 
         return $product;
-    }
-
-    protected function processVideoFile(array $videoDataCollection)
-    {
-        $newVideoDataCollection = [];
-        foreach ($videoDataCollection as $item) {
-            if ($item['video_provider'] === 'uploader' && $this->isTmpVideo($item['video_url'])) {
-                $result = $this->mediaDirectory->copyFile(
-                    $this->mediaDirectory->getAbsolutePath($item['video_url']),
-                    $this->mediaDirectory->getAbsolutePath($this->tagetVideoPath($item['video_url']))
-                );
-                $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
-                $item['video_url'] = $this->tagetVideoPath($item['video_url']);
-            }
-            $newVideoDataCollection[] = $item;
-        }
-        return $newVideoDataCollection;
-    }
-
-    protected function processDeletedVideo(array $mediaCollection)
-    {
-        foreach ($mediaCollection as $item) {
-            if ($item['media_type'] === 'upload-video' && isset($item['removed']) && $item['removed']) {
-                $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
-            }
-        }
     }
 
     /**
@@ -347,6 +322,7 @@ class CreateHandler extends AbstractHandler
     }
 
     /**
+     * (Modify)
      * Checks if gallery item is video
      *
      * @param array $item
@@ -391,6 +367,53 @@ class CreateHandler extends AbstractHandler
         return $mediaCollection;
     }
 
+    /**
+     * (New method)
+     * Process upload video
+     *
+     * @param array $videoDataCollection
+     * @return array
+     */
+    protected function processVideoFile(array $videoDataCollection)
+    {
+        $newVideoDataCollection = [];
+        foreach ($videoDataCollection as $item) {
+            if ($item['video_provider'] === 'uploader' && $this->isTmpVideo($item['video_url'])) {
+                $result = $this->mediaDirectory->copyFile(
+                    $this->mediaDirectory->getAbsolutePath($item['video_url']),
+                    $this->mediaDirectory->getAbsolutePath($this->tagetVideoPath($item['video_url']))
+                );
+                $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
+                $item['video_url'] = $this->tagetVideoPath($item['video_url']);
+            }
+            $newVideoDataCollection[] = $item;
+        }
+        return $newVideoDataCollection;
+    }
+
+    /**
+     * (New method)
+     * Process deleted video
+     *
+     * @param array $mediaCollection
+     * @return void
+     */
+    protected function processDeletedVideo(array $mediaCollection)
+    {
+        foreach ($mediaCollection as $item) {
+            if ($item['media_type'] === 'upload-video' && isset($item['removed']) && $item['removed']) {
+                $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
+            }
+        }
+    }
+
+    /**
+     * (New method)
+     * Check the path is tmp or not
+     *
+     * @param string $path
+     * @return bool
+     */
     private function isTmpVideo($path)
     {
         if (strpos($path, 'tmp/') === 0) {
@@ -399,6 +422,13 @@ class CreateHandler extends AbstractHandler
         return false;
     }
 
+    /**
+     * (New method)
+     * Get the target video path
+     *
+     * @param string $path
+     * @return string
+     */
     private function tagetVideoPath($path)
     {
         return substr($path, 4);
