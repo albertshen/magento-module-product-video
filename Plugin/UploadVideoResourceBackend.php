@@ -73,6 +73,6 @@ class UploadVideoResourceBackend
 
     private function tagetVideoPath($path)
     {
-        return substr($path, 4);
+        return str_replace('tmp/catalog/product/', '', $path);
     }
 }

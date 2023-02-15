@@ -16,7 +16,7 @@ use Magento\Framework\Filesystem;
  */
 class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterface
 {
-    const UPLOAD_DIR = 'tmp/catelog/product/video';
+    const UPLOAD_DIR = 'tmp/catalog/product/video';
 
     const ADMIN_RESOURCE = 'Magento_Backend::content';
 
