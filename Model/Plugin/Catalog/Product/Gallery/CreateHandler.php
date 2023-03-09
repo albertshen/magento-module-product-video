@@ -401,7 +401,7 @@ class CreateHandler extends AbstractHandler
     protected function processDeletedVideo(array $mediaCollection)
     {
         foreach ($mediaCollection as $item) {
-            if ($item['media_type'] === 'upload-video' && isset($item['removed']) && $item['removed']) {
+            if (!empty($item['media_type']) && $item['media_type'] === 'upload-video' && isset($item['removed']) && $item['removed']) {
                 $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
             }
         }
