@@ -15,4 +15,12 @@ class UploadVideoEntryConverter extends ExternalVideoEntryConverter
      * Media Entry type code
      */
     const MEDIA_TYPE_CODE = 'upload-video';
+
+    /**
+     * @return string
+     */
+    public function getMediaEntryType()
+    {
+        return self::MEDIA_TYPE_CODE;
+    }
 }
