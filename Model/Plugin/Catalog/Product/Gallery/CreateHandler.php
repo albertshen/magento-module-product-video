@@ -384,7 +384,7 @@ class CreateHandler extends AbstractHandler
                     $this->mediaDirectory->getAbsolutePath($this->tagetVideoPath($item['video_url']))
                 );
                 $this->mediaDirectory->delete($this->mediaDirectory->getAbsolutePath($item['video_url']));
-                $item['video_url'] = $this->tagetVideoPath($item['video_url']);
+                $item['video_url'] = str_replace('tmp/catalog/product/', '', $item['video_url']);
             }
             $newVideoDataCollection[] = $item;
         }
